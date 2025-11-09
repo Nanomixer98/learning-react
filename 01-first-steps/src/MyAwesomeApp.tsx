@@ -3,7 +3,7 @@ import { CSSProperties } from 'react';
 const name = 'Nano';
 const lastName = 'Mixer';
 const favoriteGames = ['Pokemon', 'Half Life', 'Halo'];
-const isActive = true;
+const isActive = false;
 const address = {
   zipCode: '12345',
   street: 'Main St',
@@ -22,18 +22,17 @@ const myStyle: CSSProperties = {
 
 export function MyAwesomeApp() {
   return (
-    <>
-      <h1>
-        {name} {lastName}
-      </h1>
+    <div data-testid="first-name-container">
+      <h1 data-testid="first-name">{name}</h1>
+      <h2>{lastName}</h2>
 
       <p>Favorite games: {favoriteGames.join(', ')}</p>
       <p>{12 + 2}</p>
 
-      <h2>{isActive ? 'active' : 'inactive'}</h2>
+      <h1>{isActive ? 'active' : 'inactive'}</h1>
 
       <p style={myStyle}>{JSON.stringify(address)}</p>
-    </>
+    </div>
   );
 }
 

@@ -2,11 +2,11 @@ import { useState } from 'react';
 import styles from './ItemCounter.module.css';
 
 interface Props {
-  name: string;
+  productName: string;
   quantity?: number;
 }
 
-export const ItemCounter = ({ name, quantity = 0 }: Props) => {
+export const ItemCounter = ({ productName, quantity = 0 }: Props) => {
   const [counter, setCounter] = useState(quantity);
   console.log(counter);
 
@@ -21,7 +21,7 @@ export const ItemCounter = ({ name, quantity = 0 }: Props) => {
         className={styles['item-text']}
         style={{ color: counter === 1 ? 'red' : 'black' }}
       >
-        {name}
+        {productName}
       </span>
       <button className={styles.red} onClick={() => handleClick(-1)}>
         -1
