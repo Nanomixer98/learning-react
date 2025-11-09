@@ -15,12 +15,13 @@ export function FirstStepsApp() {
   return (
     <>
       <h1>Shopping Cart</h1>
-      {/* <ItemCounter name="Nintendo Switch 2" quantity={100} />
-      <ItemCounter name="PlayStation 5" />
-      <ItemCounter name="Xbox Series X" quantity={30} /> */}
 
       {itemsInCart.map(({ productName, quantity }) => (
-        <ItemCounter key={productName} name={productName} quantity={quantity} />
+        <ItemCounter
+          key={productName}
+          productName={productName}
+          quantity={quantity}
+        />
       ))}
     </>
   );
