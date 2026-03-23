@@ -1,10 +1,10 @@
-import { Filter, Grid, List } from 'lucide-react';
-import { useState } from 'react';
-import { useSearchParams } from 'react-router';
-import { Button } from '../../components/ui/button';
-import type { Product } from '../../mocks/products.mock';
-import { FilterSidebar } from './FilterSidebar';
-import { ProductCard } from './ProductCard';
+import type { Product } from "@/interfaces/product.interface";
+import { Filter, Grid, List } from "lucide-react";
+import { useState } from "react";
+import { useSearchParams } from "react-router";
+import { Button } from "../../components/ui/button";
+import { FilterSidebar } from "./FilterSidebar";
+import { ProductCard } from "./ProductCard";
 
 interface Props {
   products: Product[];
@@ -13,9 +13,9 @@ interface Props {
 export const ProductsGrid = ({ products }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
-  const viewMode = searchParams.get('viewMode') || 'grid';
-  const handleViewModeChange = (mode: 'grid' | 'list') => {
-    searchParams.set('viewMode', mode);
+  const viewMode = searchParams.get("viewMode") || "grid";
+  const handleViewModeChange = (mode: "grid" | "list") => {
+    searchParams.set("viewMode", mode);
     setSearchParams(searchParams);
   };
 
@@ -43,17 +43,17 @@ export const ProductsGrid = ({ products }: Props) => {
 
             <div className="hidden md:flex border rounded-md">
               <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                variant={viewMode === "grid" ? "default" : "ghost"}
                 size="sm"
-                onClick={() => handleViewModeChange('grid')}
+                onClick={() => handleViewModeChange("grid")}
                 className="rounded-r-none"
               >
                 <Grid className="h-4 w-4" />
               </Button>
               <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                variant={viewMode === "list" ? "default" : "ghost"}
                 size="sm"
-                onClick={() => handleViewModeChange('list')}
+                onClick={() => handleViewModeChange("list")}
                 className="rounded-l-none"
               >
                 <List className="h-4 w-4" />
@@ -89,19 +89,20 @@ export const ProductsGrid = ({ products }: Props) => {
           <div className="flex-1">
             <div
               className={
-                viewMode === 'grid'
-                  ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
-                  : 'space-y-4'
+                viewMode === "grid"
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                  : "space-y-4"
               }
             >
               {products.map((product) => (
                 <ProductCard
                   key={product.id}
                   id={product.id}
-                  name={product.name}
+                  name={product.title}
                   price={product.price}
-                  image={product.image}
-                  category={product.category}
+                  image={product.images[0]}
+                  category={product.gender}
+                  sizes={product.sizes}
                 />
               ))}
             </div>
