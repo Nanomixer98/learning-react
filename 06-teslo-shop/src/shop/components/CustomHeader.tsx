@@ -1,25 +1,27 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-import { useRef, type KeyboardEvent } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router';
-import { CustomLogo } from '../../components/custom/CustomLogo';
-import { cn } from '../../lib/utils';
+import { useAuthStore } from "@/auth/store/auth.store";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import { useRef, type KeyboardEvent } from "react";
+import { Link, useParams, useSearchParams } from "react-router";
+import { CustomLogo } from "../../components/custom/CustomLogo";
+import { cn } from "../../lib/utils";
 
 export const CustomHeader = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { gender } = useParams();
+  const { authStatus, isAdmin, logout } = useAuthStore();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const searchQuery = searchParams.get('query') || '';
+  const searchQuery = searchParams.get("query") || "";
   const handleSearch = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') return;
+    if (event.key !== "Enter") return;
     const query = inputRef.current?.value;
     const newSearchParams = new URLSearchParams();
     if (!query) {
-      newSearchParams.delete('query');
+      newSearchParams.delete("query");
     } else {
-      newSearchParams.set('query', inputRef.current?.value || '');
+      newSearchParams.set("query", inputRef.current?.value || "");
     }
     setSearchParams(newSearchParams);
   };
@@ -36,8 +38,8 @@ export const CustomHeader = () => {
             <Link
               to="/"
               className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                gender ?? 'underline underline-offset-4',
+                "text-sm font-medium transition-colors hover:text-primary",
+                gender ?? "underline underline-offset-4",
               )}
             >
               Todos
@@ -45,8 +47,8 @@ export const CustomHeader = () => {
             <Link
               to="/gender/men"
               className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                gender === 'men' && 'underline underline-offset-4',
+                "text-sm font-medium transition-colors hover:text-primary",
+                gender === "men" && "underline underline-offset-4",
               )}
             >
               Hombres
@@ -54,8 +56,8 @@ export const CustomHeader = () => {
             <Link
               to="/gender/women"
               className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                gender === 'women' && 'underline underline-offset-4',
+                "text-sm font-medium transition-colors hover:text-primary",
+                gender === "women" && "underline underline-offset-4",
               )}
             >
               Mujeres
@@ -63,8 +65,8 @@ export const CustomHeader = () => {
             <Link
               to="/gender/kids"
               className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                gender === 'kids' && 'underline underline-offset-4',
+                "text-sm font-medium transition-colors hover:text-primary",
+                gender === "kids" && "underline underline-offset-4",
               )}
             >
               Niños
@@ -90,17 +92,30 @@ export const CustomHeader = () => {
               <Search className="h-5 w-5" />
             </Button>
 
-            <Link to="/auth/login">
-              <Button variant="default" size="sm" className="ml-2">
-                Login
+            {authStatus === "not-authenticated" ? (
+              <Link to="/auth/login">
+                <Button variant="default" size="sm" className="ml-2">
+                  Login
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                className="ml-2"
+                onClick={logout}
+              >
+                Logout
               </Button>
-            </Link>
+            )}
 
-            <Link to="/admin">
-              <Button variant="destructive" size="sm" className="ml-2">
-                Admin
-              </Button>
-            </Link>
+            {isAdmin() && (
+              <Link to="/admin">
+                <Button variant="destructive" size="sm" className="ml-2">
+                  Admin
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
