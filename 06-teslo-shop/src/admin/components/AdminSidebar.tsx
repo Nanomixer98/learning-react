@@ -28,14 +28,19 @@ export const AdminSidebar: React.FC<SidebarProps> = ({
   const { user } = useAuthStore();
 
   const menuItems = [
-    { icon: Home, label: "Dashboard", to: "/admin" },
-    { icon: BarChart3, label: "Products", to: "/admin/products" },
-    { icon: Users, label: "Users" },
-    { icon: ShoppingCart, label: "Orders" },
-    { icon: FileText, label: "Reports" },
-    { icon: Bell, label: "Notifications" },
-    { icon: Settings, label: "Settings" },
-    { icon: HelpCircle, label: "Help" },
+    { icon: Home, label: "Dashboard", to: "/admin", disabled: false },
+    {
+      icon: BarChart3,
+      label: "Products",
+      to: "/admin/products",
+      disabled: false,
+    },
+    { icon: Users, label: "Users", disabled: true },
+    { icon: ShoppingCart, label: "Orders", disabled: true },
+    { icon: FileText, label: "Reports", disabled: true },
+    { icon: Bell, label: "Notifications", disabled: true },
+    { icon: Settings, label: "Settings", disabled: true },
+    { icon: HelpCircle, label: "Help", disabled: true },
   ];
 
   const isActiveRoute = (to: string) => {
@@ -68,21 +73,36 @@ export const AdminSidebar: React.FC<SidebarProps> = ({
         <ul className="space-y-2">
           {menuItems.map((item, index) => {
             const Icon = item.icon;
+            const isDisabled = item.disabled;
+            const iconContent = (
+              <>
+                <Icon size={20} className="flex-shrink-0" />
+                {!isCollapsed && (
+                  <span className="font-medium">{item.label}</span>
+                )}
+              </>
+            );
             return (
               <li key={index}>
-                <Link
-                  to={item.to || "/admin"}
-                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 group ${
-                    isActiveRoute(item.to || "/foo")
-                      ? "bg-blue-50 text-blue-600 border-r-2 border-blue-600"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                  }`}
-                >
-                  <Icon size={20} className="flex-shrink-0" />
-                  {!isCollapsed && (
-                    <span className="font-medium">{item.label}</span>
-                  )}
-                </Link>
+                {isDisabled ? (
+                  <div
+                    className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-400 cursor-not-allowed opacity-50 select-none"
+                    title="Próximamente"
+                  >
+                    {iconContent}
+                  </div>
+                ) : (
+                  <Link
+                    to={item.to || "/admin"}
+                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 group ${
+                      isActiveRoute(item.to || "/foo")
+                        ? "bg-blue-50 text-blue-600 border-r-2 border-blue-600"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
+                  >
+                    {iconContent}
+                  </Link>
+                )}
               </li>
             );
           })}

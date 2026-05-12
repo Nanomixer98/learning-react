@@ -1,17 +1,24 @@
 import { AdminHeader } from "@/admin/components/AdminHeader";
 import { AdminSidebar } from "@/admin/components/AdminSidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
 
 export const AdminLayout = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    return localStorage.getItem("collapsed") === "true";
+  });
+
+  const toggleCollapsed = () => {
+    setSidebarCollapsed((prev) => !prev);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("collapsed", String(sidebarCollapsed));
+  }, [sidebarCollapsed]);
 
   return (
     <div className="bg-gray-50 flex h-screen overflow-hidden">
-      <AdminSidebar
-        isCollapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-      />
+      <AdminSidebar isCollapsed={sidebarCollapsed} onToggle={toggleCollapsed} />
 
       <div className="flex-1 flex flex-col min-w-0">
         <AdminHeader />
