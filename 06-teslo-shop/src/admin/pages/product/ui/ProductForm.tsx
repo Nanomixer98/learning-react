@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { Product, Size } from "@/interfaces/product.interface";
 import { cn } from "@/lib/utils";
 import { Plus, SaveAll, Tag, Upload, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
@@ -14,7 +14,13 @@ interface Props {
   isSaving: boolean;
 
   // Methods
-  onSubmit: (productLike: Partial<Product>) => Promise<void>;
+  onSubmit: (
+    productLike: Partial<Product> & { files?: File[] },
+  ) => Promise<void>;
+}
+
+interface FormInputs extends Product {
+  files?: File[];
 }
 
 const availableSizes: Size[] = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -34,14 +40,19 @@ export const ProductForm = ({
     getValues,
     setValue,
     watch,
-  } = useForm({
+  } = useForm<FormInputs>({
     defaultValues: product,
   });
 
   const selectedSizes = watch("sizes");
   const assignedTags = watch("tags");
   const currentStock = watch("stock");
+  const currentFiles = watch("files");
   const tagInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setValue("files", []);
+  }, [product]);
 
   const addTag = () => {
     if (!tagInputRef.current) return;
@@ -95,12 +106,18 @@ export const ProductForm = ({
     e.stopPropagation();
     setDragActive(false);
     const files = e.dataTransfer.files;
-    console.log(files);
+
+    if (!files) return;
+    const currentFiles = getValues("files") ?? [];
+    setValue("files", [...currentFiles, ...Array.from(files)]);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    console.log(files);
+
+    if (!files) return;
+    const currentFiles = getValues("files") ?? [];
+    setValue("files", [...currentFiles, ...Array.from(files)]);
   };
 
   return (
@@ -445,6 +462,27 @@ export const ProductForm = ({
                         {image}
                       </p>
                     </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Images to load */}
+              <div
+                className={cn("mt-6 space-y-3", {
+                  hidden: currentFiles?.length === 0,
+                })}
+              >
+                <h3 className="text-sm font-medium text-slate-700">
+                  Imágenes por cargar
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {currentFiles?.map((file, index) => (
+                    <img
+                      src={URL.createObjectURL(file)}
+                      key={index}
+                      alt="Product"
+                      className="w-full h-full object-cover rounded-lg"
+                    />
                   ))}
                 </div>
               </div>
