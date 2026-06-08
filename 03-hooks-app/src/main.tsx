@@ -1,10 +1,11 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { Toaster } from 'sonner';
-import { ProffessionalApp } from './09-useContext/ProffessionalApp';
-import './index.css';
+import { StrictMode, Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import { Toaster } from "sonner";
+import { getUserAction } from "./08-use-suspense/api/get-user.action";
+import { ClientInfo } from "./08-use-suspense/ClientInfo";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Toaster richColors />
     {/* <HooksApp /> */}
@@ -18,7 +19,7 @@ createRoot(document.getElementById('root')!).render(
     {/* <MemoHook /> */}
     {/* <MemoCounter /> */}
     {/* <InstagromApp /> */}
-    {/* <Suspense
+    <Suspense
       fallback={
         <div className="bg-gradient flex flex-col">
           <h1>Loading...</h1>
@@ -26,7 +27,7 @@ createRoot(document.getElementById('root')!).render(
       }
     >
       <ClientInfo getUser={getUserAction(1000)} />
-    </Suspense> */}
-    <ProffessionalApp />
-  </StrictMode>
+    </Suspense>
+    {/* <ProffessionalApp /> */}
+  </StrictMode>,
 );
