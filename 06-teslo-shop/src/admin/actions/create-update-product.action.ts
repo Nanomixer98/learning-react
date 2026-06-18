@@ -40,7 +40,7 @@ export const createUpdateProductAction = async (
 
   return {
     ...data,
-    images: data.images.map((image) => {
+    images: data.images.map((image: string | string[]) => {
       if (image.includes("http")) return image;
       return `${import.meta.env.VITE_API_URL}/files/product/${image}`;
     }),
