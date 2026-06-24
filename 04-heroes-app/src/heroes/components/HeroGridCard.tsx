@@ -1,13 +1,13 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Brain, Eye, Gauge, Heart, Shield, Zap } from 'lucide-react';
-import { useContext } from 'react';
-import { useNavigate } from 'react-router';
-import { cn } from '../../lib/utils';
-import { FavoriteHeroContext } from '../context/FavoriteHeroContext';
-import type { Hero } from '../types/hero.interface';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Brain, Eye, Gauge, Heart, Shield, Zap } from "lucide-react";
+import { useContext } from "react";
+import { useNavigate } from "react-router";
+import { cn } from "../../lib/utils";
+import { FavoriteHeroContext } from "../context/FavoriteHeroContext";
+import type { Hero } from "../types/hero.interface";
 
 interface Props {
   hero: Hero;
@@ -36,8 +36,8 @@ export const HeroGridCard = ({ hero }: Props) => {
         <div className="absolute top-3 left-3 flex items-center gap-2">
           <div
             className={cn(
-              'w-3 h-3 rounded-full',
-              hero.status === 'Active' ? 'bg-green-500' : 'bg-red-500'
+              "w-3 h-3 rounded-full",
+              hero.status === "Active" ? "bg-green-500" : "bg-red-500",
             )}
           />
           <Badge
@@ -49,7 +49,7 @@ export const HeroGridCard = ({ hero }: Props) => {
         </div>
 
         {/* Universe badge */}
-        {hero.universe === 'DC' ? (
+        {hero.universe === "DC" ? (
           <Badge className="absolute top-3 right-3 text-xs bg-blue-600 text-white">
             {hero.universe}
           </Badge>
@@ -68,7 +68,7 @@ export const HeroGridCard = ({ hero }: Props) => {
         >
           <Heart
             className={`h-4 w- ${
-              isFavorite(hero) ? 'fill-red-500 text-red-500' : 'text-gray'
+              isFavorite(hero) ? "fill-red-500 text-red-500" : "text-gray"
             }`}
           />
         </Button>
