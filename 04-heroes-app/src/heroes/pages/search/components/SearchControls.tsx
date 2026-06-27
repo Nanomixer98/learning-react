@@ -2,20 +2,20 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-} from '@/components/ui/accordion';
-import { Filter, Grid, Plus, Search, SortAsc } from 'lucide-react';
-import { useRef, type KeyboardEvent } from 'react';
-import { useSearchParams } from 'react-router';
-import { Button } from '../../../../components/ui/button';
-import { Input } from '../../../../components/ui/input';
-import { Slider } from '../../../../components/ui/slider';
+} from "@/components/ui/accordion";
+import { Filter, Grid, Plus, Search, SortAsc } from "lucide-react";
+import { useRef, type KeyboardEvent } from "react";
+import { useSearchParams } from "react-router";
+import { Button } from "../../../../components/ui/button";
+import { Input } from "../../../../components/ui/input";
+import { Slider } from "../../../../components/ui/slider";
 
 export const SearchControls = () => {
   const [queryParams, setQueryParams] = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const activeAdvanceSearchParam = queryParams.get('activeAdvanceSearch') ?? '';
-  const strengthParam = Number(queryParams.get('strength') ?? '0');
+  const activeAdvanceSearchParam = queryParams.get("activeAdvanceSearch") ?? "";
+  const strengthParam = Number(queryParams.get("strength") ?? "0");
 
   const setNewQueryParam = (name: string, value: string) => {
     queryParams.set(name, value);
@@ -23,18 +23,18 @@ export const SearchControls = () => {
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') return;
-    const value = inputRef.current?.value ?? '';
-    setNewQueryParam('name', value);
+    if (event.key !== "Enter") return;
+    const value = inputRef.current?.value ?? "";
+    setNewQueryParam("name", value);
   };
 
   const handleAdvanceFilters = () => {
-    if (activeAdvanceSearchParam === 'advance-filters') {
-      queryParams.delete('activeAdvanceSearch');
+    if (activeAdvanceSearchParam === "advance-filters") {
+      queryParams.delete("activeAdvanceSearch");
       setQueryParams(queryParams);
       return;
     }
-    setNewQueryParam('activeAdvanceSearch', 'advance-filters');
+    setNewQueryParam("activeAdvanceSearch", "advance-filters");
   };
 
   return (
@@ -48,7 +48,7 @@ export const SearchControls = () => {
             placeholder="Search heroes, villains, powers, teams..."
             className="pl-12 h-12 text-lg bg-white"
             onKeyDown={handleKeyDown}
-            defaultValue={queryParams.get('name') ?? ''}
+            defaultValue={queryParams.get("name") ?? ""}
           />
         </div>
 
@@ -56,9 +56,9 @@ export const SearchControls = () => {
         <div className="flex gap-2">
           <Button
             variant={
-              activeAdvanceSearchParam === 'advance-filters'
-                ? 'default'
-                : 'outline'
+              activeAdvanceSearchParam === "advance-filters"
+                ? "default"
+                : "outline"
             }
             className="h-12"
             onClick={handleAdvanceFilters}
@@ -83,7 +83,12 @@ export const SearchControls = () => {
         </div>
       </div>
 
-      <Accordion type="single" collapsible value={activeAdvanceSearchParam}>
+      <Accordion
+        type="single"
+        collapsible
+        value={activeAdvanceSearchParam}
+        data-testid="accordion"
+      >
         <AccordionItem value="advance-filters">
           <AccordionContent>
             <div className="bg-white rounded-lg p-6 mb-8 shadow-sm border">
@@ -125,7 +130,7 @@ export const SearchControls = () => {
                   className="my-2"
                   defaultValue={[strengthParam]}
                   onValueChange={(value) =>
-                    setNewQueryParam('strength', value[0].toString())
+                    setNewQueryParam("strength", value[0].toString())
                   }
                   max={10}
                   step={1}

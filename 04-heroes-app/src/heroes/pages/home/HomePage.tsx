@@ -1,28 +1,28 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Heart } from 'lucide-react';
-import { use, useMemo } from 'react';
-import { useSearchParams } from 'react-router';
-import { CustomBreadcrumbs } from '../../../components/custom/CustomBreadcrumbs';
-import { CustomJumpbotron } from '../../../components/custom/CustomJumpbotron';
-import { CustomPagination } from '../../../components/custom/CustomPagination';
-import { HeroGrid } from '../../components/HeroGrid';
-import { HeroStats } from '../../components/HeroStats';
-import { FavoriteHeroContext } from '../../context/FavoriteHeroContext';
-import { useHeroSummary } from '../../hooks/useHeroSummary';
-import { usePaginatedHero } from '../../hooks/usePaginatedHero';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Heart } from "lucide-react";
+import { use, useMemo } from "react";
+import { useSearchParams } from "react-router";
+import { CustomBreadcrumbs } from "../../../components/custom/CustomBreadcrumbs";
+import { CustomJumpbotron } from "../../../components/custom/CustomJumpbotron";
+import { CustomPagination } from "../../../components/custom/CustomPagination";
+import { HeroGrid } from "../../components/HeroGrid";
+import { HeroStats } from "../../components/HeroStats";
+import { FavoriteHeroContext } from "../../context/FavoriteHeroContext";
+import { useHeroSummary } from "../../hooks/useHeroSummary";
+import { usePaginatedHero } from "../../hooks/usePaginatedHero";
 
 export const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { favoriteCount, favorites } = use(FavoriteHeroContext);
 
-  const activeTab = searchParams.get('tab') ?? 'all';
-  const page = searchParams.get('page') ?? '1';
-  const limit = searchParams.get('limit') ?? '6';
-  const category = searchParams.get('category') ?? 'all';
+  const activeTab = searchParams.get("tab") ?? "all";
+  const page = searchParams.get("page") ?? "1";
+  const limit = searchParams.get("limit") ?? "6";
+  const category = searchParams.get("category") ?? "all";
 
   const selectedTab = useMemo(() => {
-    const validTabs = ['all', 'favorites', 'heroes', 'villains'];
-    return validTabs.includes(activeTab) ? activeTab : 'all';
+    const validTabs = ["all", "favorites", "heroes", "villains"];
+    return validTabs.includes(activeTab) ? activeTab : "all";
   }, [activeTab]);
 
   const { data: heroesResponse } = usePaginatedHero(+page, +limit, category);
@@ -48,9 +48,9 @@ export const HomePage = () => {
             value="all"
             onClick={() =>
               setSearchParams((prev) => {
-                prev.set('tab', 'all');
-                prev.set('page', '1');
-                prev.set('category', 'all');
+                prev.set("tab", "all");
+                prev.set("page", "1");
+                prev.set("category", "all");
                 return prev;
               })
             }
@@ -62,7 +62,7 @@ export const HomePage = () => {
             className="flex items-center gap-2"
             onClick={() =>
               setSearchParams((prev) => {
-                prev.set('tab', 'favorites');
+                prev.set("tab", "favorites");
                 return prev;
               })
             }
@@ -74,9 +74,9 @@ export const HomePage = () => {
             value="heroes"
             onClick={() =>
               setSearchParams((prev) => {
-                prev.set('tab', 'heroes');
-                prev.set('page', '1');
-                prev.set('category', 'hero');
+                prev.set("tab", "heroes");
+                prev.set("page", "1");
+                prev.set("category", "hero");
                 return prev;
               })
             }
@@ -87,9 +87,9 @@ export const HomePage = () => {
             value="villains"
             onClick={() =>
               setSearchParams((prev) => {
-                prev.set('tab', 'villains');
-                prev.set('page', '1');
-                prev.set('category', 'villain');
+                prev.set("tab", "villains");
+                prev.set("page", "1");
+                prev.set("category", "villain");
                 return prev;
               })
             }
@@ -116,7 +116,7 @@ export const HomePage = () => {
       </Tabs>
 
       {/* Pagination */}
-      {selectedTab !== 'favorites' && (
+      {selectedTab !== "favorites" && (
         <CustomPagination totalPages={heroesResponse?.pages ?? 1} />
       )}
     </>
